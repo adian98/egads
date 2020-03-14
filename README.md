@@ -19,7 +19,7 @@ that are applicable to a wide-range of use cases. To compile the library into a 
 mvn clean compile assembly:single
 ```
 
-You may have to set you `JAVA_HOME` variable to the appropriate JVM. To do this run:
+You may have to set your `JAVA_HOME` variable to the appropriate JVM. To do this run:
 
 ```shell
 export JAVA_HOME=/usr/lib/jvm/{JVM directory for desired version}
@@ -31,7 +31,7 @@ Usage
 To run a simple example type:
 
 ```shell
-java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp lib/OpenForecast-0.5.0.jar:target/egads-jar-with-dependencies.jar com.yahoo.egads.Egads src/test/resources/sample_config.ini src/test/resources/sample_input.csv
+java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp target/egads-*-jar-with-dependencies.jar com.yahoo.egads.Egads src/test/resources/sample_config.ini src/test/resources/sample_input.csv
 ```
 
 which produces the following picture (Note that you can enable this UI by setting `OUTPUT` config key to `GUI` in `sample_config.ini`).
@@ -41,13 +41,32 @@ which produces the following picture (Note that you can enable this UI by settin
 One can also specify config parameters on a command line. For example to do anomaly detection using Olympic Scoring as a time-series model and a density based method as an anomaly detection model use the following.
 
 ```shell
-java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp lib/OpenForecast-0.5.0.jar:target/egads-jar-with-dependencies.jar com.yahoo.egads.Egads "MAX_ANOMALY_TIME_AGO:999999999;AGGREGATION:1;OP_TYPE:DETECT_ANOMALY;TS_MODEL:OlympicModel;AD_MODEL:ExtremeLowDensityModel;INPUT:CSV;OUTPUT:STD_OUT;BASE_WINDOWS:168;PERIOD:-1;NUM_WEEKS:3;NUM_TO_DROP:0;DYNAMIC_PARAMETERS:0;TIME_SHIFTS:0" src/test/resources/sample_input.csv
+java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp target/egads-*-jar-with-dependencies.jar com.yahoo.egads.Egads "MAX_ANOMALY_TIME_AGO:999999999;AGGREGATION:1;OP_TYPE:DETECT_ANOMALY;TS_MODEL:OlympicModel;AD_MODEL:ExtremeLowDensityModel;INPUT:CSV;OUTPUT:STD_OUT;BASE_WINDOWS:168;PERIOD:-1;NUM_WEEKS:3;NUM_TO_DROP:0;DYNAMIC_PARAMETERS:0;TIME_SHIFTS:0" src/test/resources/sample_input.csv
 ```
 
 To run anomaly detection using no time-series model with an auto static threshold for anomaly detection, use the following:
 
 ```shell
-java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp lib/OpenForecast-0.5.0.jar:target/egads-jar-with-dependencies.jar com.yahoo.egads.Egads "MAX_ANOMALY_TIME_AGO:999999999;AGGREGATION:1;OP_TYPE:DETECT_ANOMALY;TS_MODEL:NullModel;AD_MODEL:SimpleThresholdModel;SIMPLE_THRESHOLD_TYPE:AdaptiveMaxMinSigmaSensitivity;INPUT:CSV;OUTPUT:STD_OUT;AUTO_SENSITIVITY_ANOMALY_PCNT:0.2;AUTO_SENSITIVITY_SD:2.0" src/test/resources/sample_input.csv
+java -Dlog4j.configurationFile=src/test/resources/log4j2.xml -cp target/egads-*-jar-with-dependencies.jar com.yahoo.egads.Egads "MAX_ANOMALY_TIME_AGO:999999999;AGGREGATION:1;OP_TYPE:DETECT_ANOMALY;TS_MODEL:NullModel;AD_MODEL:SimpleThresholdModel;SIMPLE_THRESHOLD_TYPE:AdaptiveMaxMinSigmaSensitivity;INPUT:CSV;OUTPUT:STD_OUT;AUTO_SENSITIVITY_ANOMALY_PCNT:0.2;AUTO_SENSITIVITY_SD:2.0" src/test/resources/sample_input.csv
+```
+To embed the EGADs library in an application, pull the compiled JAR from JCenter by adding the proper repository. For example in a Maven POM file add:
+
+```
+<repositories>
+  <repository>
+    <id>jcenter</id>
+    <url>https://jcenter.bintray.com/</url>
+  </repository>
+</repositories>
+```
+Then import the dependency, e.g.:
+
+```
+<dependency>
+  <groupId>com.yahoo.egads</groupId>
+  <artifactId>egads</artifactId>
+  <version>0.4.0</version>
+</dependency>
 ```
 
 Overview
@@ -260,12 +279,12 @@ be deployed in production.
 
 References
 ============
-<a href="http://labs.yahoo.com/publication/generic-and-scalable-framework-for-automated-time-series-anomaly-detection/">Generic and Scalable Framework for Automated Time-series Anomaly Detection</a> by Nikolay Laptev, Saeed Amizadeh, Ian Flint , KDD 2015 (August 10, 2015)
+<a href="https://s.yimg.com/ge/labs/v2/uploads/kdd2015.pdf">Generic and Scalable Framework for Automated Time-series Anomaly Detection</a> by Nikolay Laptev, Saeed Amizadeh, Ian Flint , KDD 2015 (August 10, 2015)
 
 Citation
 ============
 If you use EGADS in your projects, please cite:
-<a href="http://labs.yahoo.com/publication/generic-and-scalable-framework-for-automated-time-series-anomaly-detection/">Generic and Scalable Framework for Automated Time-series Anomaly Detection</a> by Nikolay Laptev, Saeed Amizadeh, Ian Flint , KDD 2015
+<a href="https://s.yimg.com/ge/labs/v2/uploads/kdd2015.pdf">Generic and Scalable Framework for Automated Time-series Anomaly Detection</a> by Nikolay Laptev, Saeed Amizadeh, Ian Flint , KDD 2015
 
 BibTeX:
 

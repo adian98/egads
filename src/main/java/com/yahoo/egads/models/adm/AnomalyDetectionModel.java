@@ -20,8 +20,14 @@ public interface AnomalyDetectionModel extends Model {
 
     // tune the anomaly detection parameters based on the training data.
     public void tune(TimeSeries.DataSequence observedSeries,
-            TimeSeries.DataSequence expectedSeries,
-            Anomaly.IntervalSequence anomalySequence) throws Exception;
+            TimeSeries.DataSequence expectedSeries) throws Exception;
+
+    // method to check whether the anomaly value is inside the
+    // detection window or not
+    public boolean isDetectionWindowPoint(int maxHrsAgo,
+                                          long windowStart,
+                                          long anomalyTime,
+                                          long startTime);
 
     // detect anomalies.
     public Anomaly.IntervalSequence detect(
